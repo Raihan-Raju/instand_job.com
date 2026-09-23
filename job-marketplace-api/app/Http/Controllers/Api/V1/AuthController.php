@@ -14,6 +14,12 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Register
+    |--------------------------------------------------------------------------
+    */
+
     public function register(RegisterRequest $request): JsonResponse
     {
         $data = $request->validated();
@@ -55,6 +61,13 @@ class AuthController extends Controller
         ], 201);
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Login
+    |--------------------------------------------------------------------------
+    */
+
     public function login(LoginRequest $request): JsonResponse
     {
         $data = $request->validated();
@@ -69,6 +82,7 @@ class AuthController extends Controller
         }
 
         if ((int) $user->status !== 1) {
+
             $message = match ((int) $user->status) {
                 0 => 'Your account is inactive.',
                 2 => 'Your account is suspended.',
@@ -86,7 +100,10 @@ class AuthController extends Controller
             'last_login_at' => now(),
         ]);
 
-        // আপাতত latest login token-টাই active রাখছি।
+        /*
+        | আপাতত এক account-এর latest login token active রাখছি।
+        | Multi-device support পরে device table সহ করব।
+        */
         $user->tokens()->delete();
 
         $token = $user
@@ -109,6 +126,13 @@ class AuthController extends Controller
         ]);
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logged In User
+    |--------------------------------------------------------------------------
+    */
+
     public function me(Request $request): JsonResponse
     {
         $user = $request->user()->load('profile');
@@ -126,6 +150,13 @@ class AuthController extends Controller
         ]);
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logout
+    |--------------------------------------------------------------------------
+    */
+
     public function logout(Request $request): JsonResponse
     {
         $request->user()
@@ -135,6 +166,23 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Logout successful.',
+        ]);
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logout All Devices
+    |--------------------------------------------------------------------------
+    */
+
+    public function logoutAll(Request $request): JsonResponse
+    {
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Logged out from all devices.',
         ]);
     }
 }
