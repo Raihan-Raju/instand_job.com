@@ -4,9 +4,12 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\ForgotPasswordController;
 use App\Http\Controllers\Api\V1\LocationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\V1\ProfileController;
 
 
-Route::prefix('v1')->group(function () {
+
+Route::prefix('v1')->group(function () 
+{
 
     /*
     |--------------------------------------------------------------------------
@@ -87,12 +90,15 @@ Route::prefix('v1')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('auth:sanctum')->group(function () 
+    {
 
         Route::get('/me', [
             AuthController::class,
             'me'
         ]);
+
+        
 
         Route::post('/auth/logout', [
             AuthController::class,
@@ -102,6 +108,27 @@ Route::prefix('v1')->group(function () {
         Route::post('/auth/logout-all', [
             AuthController::class,
             'logoutAll'
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Common User Profile
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/profile', [
+            ProfileController::class,
+            'show'
+        ]);
+
+        Route::put('/profile', [
+            ProfileController::class,
+            'update'
+        ]);
+
+        Route::post('/profile/photo', [
+            ProfileController::class,
+            'uploadPhoto'
         ]);
     });
 
