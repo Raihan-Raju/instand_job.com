@@ -38,5 +38,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserProfile::class);
     }
+
+    public function verification()
+    {
+        return $this->hasOne(UserVerification::class);
+    }
     
 }

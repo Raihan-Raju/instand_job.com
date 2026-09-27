@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\V1\ForgotPasswordController;
 use App\Http\Controllers\Api\V1\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\ProfileController;
-
+use App\Http\Controllers\Api\V1\KycController;
 
 
 Route::prefix('v1')->group(function () 
@@ -130,6 +130,20 @@ Route::prefix('v1')->group(function ()
             ProfileController::class,
             'uploadPhoto'
         ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | NID / KYC
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('/kyc/submit', [
+            KycController::class,
+            'submit'
+        ]);
+
+
     });
 
 });
