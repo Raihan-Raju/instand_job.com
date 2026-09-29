@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\KycController;
+use App\Http\Controllers\Api\V1\Admin\KycController as AdminKycController;
 
 
 Route::prefix('v1')->group(function () 
@@ -98,7 +99,6 @@ Route::prefix('v1')->group(function ()
             'me'
         ]);
 
-        
 
         Route::post('/auth/logout', [
             AuthController::class,
@@ -109,6 +109,7 @@ Route::prefix('v1')->group(function ()
             AuthController::class,
             'logoutAll'
         ]);
+
 
         /*
         |--------------------------------------------------------------------------
@@ -142,6 +143,45 @@ Route::prefix('v1')->group(function ()
             KycController::class,
             'submit'
         ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Admin APIs
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('admin')
+            ->middleware('admin')
+            ->group(function () {
+
+                /*
+                |--------------------------------------------------------------------------
+                | KYC Management
+                |--------------------------------------------------------------------------
+                */
+
+                Route::get('/kyc/pending', [
+                    AdminKycController::class,
+                    'pending'
+                ]);
+
+                Route::get('/kyc/{verificationId}', [
+                    AdminKycController::class,
+                    'show'
+                ]);
+
+                Route::get('/kyc/{verificationId}/document/{side}', [
+                    AdminKycController::class,
+                    'document'
+                ])->where('side', 'front|back');
+
+                Route::post('/kyc/{verificationId}/approve', [
+                    AdminKycController::class,
+                    'approve'
+                ]);
+
+            });
 
 
     });

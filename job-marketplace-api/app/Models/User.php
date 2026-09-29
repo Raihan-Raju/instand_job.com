@@ -16,6 +16,7 @@ class User extends Authenticatable
         'password',
         'mobile_verified_at',
         'status',
+        'user_type',
         'last_login_at',
     ];
 
@@ -43,5 +44,4 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserVerification::class);
     }
-    
 }
