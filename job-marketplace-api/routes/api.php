@@ -1,15 +1,20 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\ForgotPasswordController;
 use App\Http\Controllers\Api\V1\LocationController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\KycController;
+use App\Http\Controllers\Api\V1\JobCategoryController;
+use App\Http\Controllers\Api\V1\JobSeekerProfileController;
+use App\Http\Controllers\Api\V1\SkillController;
+
 use App\Http\Controllers\Api\V1\Admin\KycController as AdminKycController;
 
 
-Route::prefix('v1')->group(function () 
+Route::prefix('v1')->group(function ()
 {
 
     /*
@@ -34,6 +39,7 @@ Route::prefix('v1')->group(function ()
             LocationController::class,
             'upazilas'
         ]);
+
     });
 
 
@@ -81,8 +87,42 @@ Route::prefix('v1')->group(function ()
                 ForgotPasswordController::class,
                 'reset'
             ])->middleware('throttle:5,1');
+
         });
+
     });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Public Job Categories
+    |--------------------------------------------------------------------------
+    |
+    | Job Seeker / Job Hire উভয়েই category list দেখতে পারবে।
+    | Login ছাড়াও category list load করা যাবে।
+    |
+    */
+
+    Route::get('/job-categories', [
+        JobCategoryController::class,
+        'index'
+    ]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Public Skills
+    |--------------------------------------------------------------------------
+    |
+    | Job Seeker registration/profile form থেকে active skills
+    | load করার জন্য এই API ব্যবহার হবে।
+    |
+    */
+
+    Route::get('/skills', [
+        SkillController::class,
+        'index'
+    ]);
 
 
     /*
@@ -91,8 +131,14 @@ Route::prefix('v1')->group(function ()
     |--------------------------------------------------------------------------
     */
 
-    Route::middleware('auth:sanctum')->group(function () 
+    Route::middleware('auth:sanctum')->group(function ()
     {
+
+        /*
+        |--------------------------------------------------------------------------
+        | Logged-in User
+        |--------------------------------------------------------------------------
+        */
 
         Route::get('/me', [
             AuthController::class,
@@ -104,6 +150,7 @@ Route::prefix('v1')->group(function ()
             AuthController::class,
             'logout'
         ]);
+
 
         Route::post('/auth/logout-all', [
             AuthController::class,
@@ -122,10 +169,12 @@ Route::prefix('v1')->group(function ()
             'show'
         ]);
 
+
         Route::put('/profile', [
             ProfileController::class,
             'update'
         ]);
+
 
         Route::post('/profile/photo', [
             ProfileController::class,
@@ -142,6 +191,22 @@ Route::prefix('v1')->group(function ()
         Route::post('/kyc/submit', [
             KycController::class,
             'submit'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Job Seeker Profile
+        |--------------------------------------------------------------------------
+        |
+        | One authenticated user can create/update one Job Seeker Profile.
+        | Multiple categories are saved through worker_categories.
+        |
+        */
+
+        Route::post('/job-seeker/profile', [
+            JobSeekerProfileController::class,
+            'save'
         ]);
 
 
@@ -166,15 +231,18 @@ Route::prefix('v1')->group(function ()
                     'pending'
                 ]);
 
+
                 Route::get('/kyc/{verificationId}', [
                     AdminKycController::class,
                     'show'
                 ]);
 
+
                 Route::get('/kyc/{verificationId}/document/{side}', [
                     AdminKycController::class,
                     'document'
                 ])->where('side', 'front|back');
+
 
                 Route::post('/kyc/{verificationId}/approve', [
                     AdminKycController::class,
@@ -182,7 +250,6 @@ Route::prefix('v1')->group(function ()
                 ]);
 
             });
-
 
     });
 
