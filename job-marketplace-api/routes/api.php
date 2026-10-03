@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\V1\KycController;
 use App\Http\Controllers\Api\V1\JobCategoryController;
 use App\Http\Controllers\Api\V1\JobSeekerProfileController;
 use App\Http\Controllers\Api\V1\SkillController;
+use App\Http\Controllers\Api\V1\EmployerProfileController;
 
 use App\Http\Controllers\Api\V1\Admin\KycController as AdminKycController;
 
@@ -206,6 +207,36 @@ Route::prefix('v1')->group(function ()
 
         Route::post('/job-seeker/profile', [
             JobSeekerProfileController::class,
+            'save'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Employer / Job Hire Profile
+        |--------------------------------------------------------------------------
+        |
+        | Same authenticated user can also activate Job Hire mode.
+        |
+        | Individual:
+        | employer_type = individual
+        |
+        | Business:
+        | employer_type = business
+        | business_name required
+        |
+        | status is controlled by Admin/System.
+        |
+        */
+
+        Route::get('/employer/profile', [
+            EmployerProfileController::class,
+            'show'
+        ]);
+
+
+        Route::post('/employer/profile', [
+            EmployerProfileController::class,
             'save'
         ]);
 

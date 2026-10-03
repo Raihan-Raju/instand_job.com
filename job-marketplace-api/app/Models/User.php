@@ -35,13 +35,35 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Common User Profile
+     */
     public function profile()
     {
         return $this->hasOne(UserProfile::class);
     }
 
+    /**
+     * NID / KYC Verification
+     */
     public function verification()
     {
         return $this->hasOne(UserVerification::class);
+    }
+
+    /**
+     * Job Seeker Profile
+     */
+    public function jobSeekerProfile()
+    {
+        return $this->hasOne(JobSeekerProfile::class);
+    }
+
+    /**
+     * Job Hire / Employer Profile
+     */
+    public function employerProfile()
+    {
+        return $this->hasOne(EmployerProfile::class);
     }
 }
