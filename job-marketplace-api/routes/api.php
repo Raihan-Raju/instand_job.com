@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\V1\JobCategoryController;
 use App\Http\Controllers\Api\V1\JobSeekerProfileController;
 use App\Http\Controllers\Api\V1\SkillController;
 use App\Http\Controllers\Api\V1\EmployerProfileController;
+use App\Http\Controllers\Api\V1\UserLocationController;
+use App\Http\Controllers\Api\V1\UserPresenceController;
 
 use App\Http\Controllers\Api\V1\Admin\KycController as AdminKycController;
 
@@ -240,6 +242,64 @@ Route::prefix('v1')->group(function ()
             'save'
         ]);
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Current GPS Location
+        |--------------------------------------------------------------------------
+        |
+        | Same authenticated user's current/latest GPS location.
+        |
+        | Job Seeker:
+        | Worker current location update.
+        |
+        | Job Hire:
+        | Hirer's current location for Current Location search.
+        |
+        | Manual search location will NOT overwrite this location.
+        |
+        */
+
+        Route::get('/location', [
+            UserLocationController::class,
+            'show'
+        ]);
+
+
+        Route::post('/location', [
+            UserLocationController::class,
+            'update'
+        ]);
+        
+        /*
+        |--------------------------------------------------------------------------
+        | User Presence
+        |--------------------------------------------------------------------------
+        |
+        | Unified account presence for both:
+        | Job Seeker and Job Hire modes.
+        |
+        */
+
+        Route::get('/presence', [
+            UserPresenceController::class,
+            'show'
+        ]);
+
+        Route::post('/presence/online', [
+            UserPresenceController::class,
+            'online'
+        ]);
+
+        Route::post('/presence/heartbeat', [
+            UserPresenceController::class,
+            'heartbeat'
+        ]);
+
+        Route::post('/presence/offline', [
+            UserPresenceController::class,
+            'offline'
+        ]);
 
         /*
         |--------------------------------------------------------------------------

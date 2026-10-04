@@ -66,4 +66,27 @@ class User extends Authenticatable
     {
         return $this->hasOne(EmployerProfile::class);
     }
+
+    /**
+     * Current GPS Location
+     *
+     * Same location relation can be used by both:
+     * Job Seeker and Job Hire modes.
+     */
+    public function location()
+    {
+        return $this->hasOne(UserLocation::class);
+    }
+
+    /**
+     * Online / Offline Presence
+     *
+     * Presence belongs to the unified user account.
+     * Same presence is used in both:
+     * Job Seeker and Job Hire modes.
+     */
+    public function presence()
+    {
+        return $this->hasOne(UserPresence::class);
+    }
 }
