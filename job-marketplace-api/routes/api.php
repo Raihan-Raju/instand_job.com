@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\V1\SkillController;
 use App\Http\Controllers\Api\V1\EmployerProfileController;
 use App\Http\Controllers\Api\V1\UserLocationController;
 use App\Http\Controllers\Api\V1\UserPresenceController;
+use App\Http\Controllers\Api\V1\WorkerAvailabilityController;
 
 use App\Http\Controllers\Api\V1\Admin\KycController as AdminKycController;
 
@@ -270,7 +271,8 @@ Route::prefix('v1')->group(function ()
             UserLocationController::class,
             'update'
         ]);
-        
+
+
         /*
         |--------------------------------------------------------------------------
         | User Presence
@@ -286,20 +288,58 @@ Route::prefix('v1')->group(function ()
             'show'
         ]);
 
+
         Route::post('/presence/online', [
             UserPresenceController::class,
             'online'
         ]);
+
 
         Route::post('/presence/heartbeat', [
             UserPresenceController::class,
             'heartbeat'
         ]);
 
+
         Route::post('/presence/offline', [
             UserPresenceController::class,
             'offline'
         ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Worker Availability
+        |--------------------------------------------------------------------------
+        |
+        | This stores the Job Seeker's base/manual availability.
+        |
+        | is_available = true
+        | Worker is willing to receive jobs.
+        |
+        | is_available = false
+        | Worker does not want to receive jobs.
+        |
+        | IMPORTANT:
+        | When a worker accepts an active job, Job Assignment will override
+        | this availability and the worker will be BUSY in ALL categories.
+        |
+        | After the hired job is completed/cancelled/released, the worker
+        | becomes eligible again according to the final assignment logic.
+        |
+        */
+
+        Route::get('/job-seeker/availability', [
+            WorkerAvailabilityController::class,
+            'show'
+        ]);
+
+
+        Route::put('/job-seeker/availability', [
+            WorkerAvailabilityController::class,
+            'update'
+        ]);
+
 
         /*
         |--------------------------------------------------------------------------
@@ -311,36 +351,36 @@ Route::prefix('v1')->group(function ()
             ->middleware('admin')
             ->group(function () {
 
-                /*
-                |--------------------------------------------------------------------------
-                | KYC Management
-                |--------------------------------------------------------------------------
-                */
+            /*
+            |--------------------------------------------------------------------------
+            | KYC Management
+            |--------------------------------------------------------------------------
+            */
 
-                Route::get('/kyc/pending', [
-                    AdminKycController::class,
-                    'pending'
-                ]);
-
-
-                Route::get('/kyc/{verificationId}', [
-                    AdminKycController::class,
-                    'show'
-                ]);
+            Route::get('/kyc/pending', [
+                AdminKycController::class,
+                'pending'
+            ]);
 
 
-                Route::get('/kyc/{verificationId}/document/{side}', [
-                    AdminKycController::class,
-                    'document'
-                ])->where('side', 'front|back');
+            Route::get('/kyc/{verificationId}', [
+                AdminKycController::class,
+                'show'
+            ]);
 
 
-                Route::post('/kyc/{verificationId}/approve', [
-                    AdminKycController::class,
-                    'approve'
-                ]);
+            Route::get('/kyc/{verificationId}/document/{side}', [
+                AdminKycController::class,
+                'document'
+            ])->where('side', 'front|back');
 
-            });
+
+            Route::post('/kyc/{verificationId}/approve', [
+                AdminKycController::class,
+                'approve'
+            ]);
+
+        });
 
     });
 
