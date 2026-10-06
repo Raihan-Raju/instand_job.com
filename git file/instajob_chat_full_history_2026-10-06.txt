@@ -1,0 +1,1153 @@
+INSTAJOB / INSTAND JOB — CHAT HISTORY & PROJECT DEVELOPMENT RECORD
+======================================================================
+Compiled: 2026-10-06
+Purpose: Preserve the available history/context of this ChatGPT conversation
+and the InstaJob Laravel REST API development work in one text file.
+
+IMPORTANT NOTE
+--------------
+This is a comprehensive reconstruction of the chat history and project context
+available to ChatGPT in this conversation. It preserves the major user
+requirements, decisions, implementation steps, errors, tests, routes, and
+current development status. It is not guaranteed to be a byte-for-byte export
+of every message ever displayed in the ChatGPT UI.
+
+======================================================================
+1. PROJECT VISION
+======================================================================
+
+Project / working names used:
+- InstaJob
+- Instand Job
+- job-marketplace-api
+
+Core concept:
+- One unified application.
+- There will NOT be separate Worker and Employer apps.
+- Home screen has two main options:
+  1. Job Seeker
+  2. Job Hire
+- A single registered account can operate as both Job Seeker and Job Hirer.
+- Backend: Laravel REST API.
+- Database: MySQL.
+- Same REST API will be consumed by Android and web frontend.
+- Authentication: Laravel Sanctum token authentication.
+
+Environment mentioned:
+- Windows / WAMP.
+- Project path:
+  C:\wamp64\www\raihan_raju_parsonal\my_project_git_files\instand_job.com\job-marketplace-api
+- Database:
+  instand_job_data
+- MySQL:
+  127.0.0.1:3306
+
+Security requirement:
+- Personal information and location data must be handled securely.
+- KYC/NID documents are private.
+- Sensitive data should be encrypted/protected appropriately.
+
+======================================================================
+2. UNIFIED ACCOUNT BUSINESS LOGIC
+======================================================================
+
+Every registered user has one personal dashboard.
+
+The same user may:
+- activate/use Job Seeker mode;
+- activate/use Job Hire mode.
+
+Dashboard requirements include:
+- Common profile
+- KYC / verification
+- Rating
+- Work summary
+- Total jobs
+- Completed jobs
+- Active jobs
+- Cancelled jobs
+- Total worked hours
+- Earnings/payment history
+- InstaJob company account
+- Total platform/service charges
+- Amount paid to InstaJob
+- Outstanding/due balance
+
+======================================================================
+3. AUTHENTICATION DECISION
+======================================================================
+
+Final login decision:
+- Username/login identifier = Mobile Number
+- Password = user's password
+- Forgot password:
+  Mobile Number -> OTP -> verify OTP -> reset password
+
+Bangladesh mobile validation:
+  /^01[3-9][0-9]{8}$/
+
+Password:
+- minimum 8 characters
+- confirmed during registration
+
+Laravel API setup started with:
+  php artisan install:api
+
+Sanctum is used for personal access tokens.
+
+Tables/migrations discussed:
+- users
+- sessions
+- cache
+- personal_access_tokens
+- password_reset_tokens
+- mobile_otps
+- user_profiles
+
+Earlier migration issue:
+- MySQL "Specified key too long; max key length is 1000 bytes"
+- sessions/cache migrations initially failed.
+- Later resolved.
+- User eventually confirmed all migrations were DONE.
+
+users table final concepts:
+- id
+- mobile unique (string length 20)
+- password
+- mobile_verified_at nullable
+- status tinyint default 1
+  0 = Inactive
+  1 = Active
+  2 = Suspended
+  3 = Blocked
+- last_login_at
+- remember_token
+- timestamps
+
+mobile_otps concepts:
+- id
+- mobile indexed
+- otp_hash
+- purpose
+- expires_at
+- verified_at nullable
+- attempt_count default 0
+- last_attempt_at nullable
+- timestamps
+
+Models mentioned:
+- User.php
+- UserProfile.php
+- MobileOtp.php
+- PasswordResetToken.php
+
+======================================================================
+4. AUTH API
+======================================================================
+
+Registration endpoint:
+  POST /api/v1/auth/register
+
+Throttle:
+  throttle:10,1
+
+Register validation:
+- mobile required/string/BD mobile regex/unique
+- password required/string/min:8/confirmed
+
+Registration flow:
+- DB transaction
+- create User
+- create UserProfile
+- create Sanctum token
+
+Successful response format tested in Postman:
+{
+    "success": true,
+    "message": "Registration successful.",
+    "data": {
+        "user": {
+            "id": ...,
+            "mobile": "...",
+            "status": 1
+        },
+        "token_type": "Bearer",
+        "access_token": "..."
+    }
+}
+
+Registration was successfully tested with HTTP 200.
+
+Auth endpoints planned/implemented through the work:
+- POST /api/v1/auth/register
+- POST /api/v1/auth/login
+- POST /api/v1/auth/logout
+- POST /api/v1/auth/logout-all
+- POST /api/v1/auth/forgot-password/send-otp
+- POST /api/v1/auth/forgot-password/verify-otp
+- POST /api/v1/auth/forgot-password/reset
+- GET /api/v1/me
+
+Forgot password throttles shown later:
+- send-otp: throttle:3,1
+- verify-otp: throttle:5,1
+- reset: throttle:5,1
+
+Historical errors encountered:
+- Route [login] not defined.
+- ForgotPasswordController called undefined method:
+  App\Services\OtpService::generate()
+- These were part of the development/debugging history.
+
+Development OTP logging was used during testing.
+
+======================================================================
+5. DEVELOPMENT ORDER CONFIRMED BY USER
+======================================================================
+
+After Auth, user repeatedly confirmed this order:
+
+1. Bangladesh locations
+2. Common User Profile
+3. NID/KYC
+4. Job Categories
+5. Skills
+6. Job Seeker Profile
+7. worker_categories
+8. worker_skills
+9. Employer Profile
+10. GPS/current location
+11. presence
+12. availability
+13. Find Worker
+
+Later marketplace job/hiring/work/payment modules follow these foundation modules.
+
+======================================================================
+6. BANGLADESH LOCATION MODULE
+======================================================================
+
+Manual administrative location hierarchy:
+  Division -> District -> Thana/Upazila
+
+Required API prefix:
+  /api/v1/locations
+
+Routes:
+  GET /api/v1/locations/divisions
+
+  GET /api/v1/locations/divisions/{divisionId}/districts
+
+  GET /api/v1/locations/districts/{districtId}/upazilas
+
+Controller:
+  Api\V1\LocationController
+
+Purpose:
+- Manual location filtering.
+- Used alongside GPS/current-location worker search.
+
+======================================================================
+7. COMMON USER PROFILE
+======================================================================
+
+Common profile is shared by the unified account.
+
+Fields/features discussed:
+- full name
+- profile photo
+- date of birth
+- gender
+- division
+- district
+- upazila/thana
+- present address
+- permanent address
+
+Routes:
+  GET /api/v1/profile
+  PUT /api/v1/profile
+  POST /api/v1/profile/photo
+
+Controller:
+  ProfileController
+
+Profile logic includes:
+- validation of Division -> District relationship
+- validation of District -> Upazila relationship
+- create/update UserProfile
+- profile photo stored on public disk
+- previous photo deleted when replaced
+
+Historical issue:
+- MySQL error occurred because value "male" was sent/stored while gender
+  column was integer in an earlier schema/design.
+- This was part of debugging during profile implementation.
+
+======================================================================
+8. NID / KYC
+======================================================================
+
+Requirement:
+- NID/KYC verification.
+- Documents must remain private.
+- Verification status controlled by Admin/System.
+
+Authenticated user route:
+  POST /api/v1/kyc/submit
+
+Admin routes shown:
+  GET  /api/v1/admin/kyc/pending
+  GET  /api/v1/admin/kyc/{verificationId}
+  GET  /api/v1/admin/kyc/{verificationId}/document/{side}
+  POST /api/v1/admin/kyc/{verificationId}/approve
+
+Document side constraint:
+  front|back
+
+Admin route group:
+- auth:sanctum
+- admin middleware
+
+Admin controller alias:
+  App\Http\Controllers\Api\V1\Admin\KycController as AdminKycController
+
+======================================================================
+9. JOB CATEGORIES
+======================================================================
+
+Public route:
+  GET /api/v1/job-categories
+
+Controller:
+  JobCategoryController@index
+
+Reason for public endpoint:
+- Both Job Seeker and Job Hire need category lists.
+- Category list may load without login.
+
+Worker can belong to MULTIPLE categories.
+
+Example:
+- Same worker may be Plumber and Electrician.
+
+Important availability rule:
+- Availability is worker-wide, not independently available per category while
+  an active job is running.
+- If worker is working in one category, all other worker categories should
+  show Busy/Unavailable.
+
+======================================================================
+10. SKILLS
+======================================================================
+
+Public route:
+  GET /api/v1/skills
+
+Controller:
+  SkillController@index
+
+Purpose:
+- Load active skills for Job Seeker registration/profile.
+- Workers may have multiple skills.
+
+worker_categories and worker_skills are many-to-many/pivot concepts.
+
+======================================================================
+11. JOB SEEKER PROFILE
+======================================================================
+
+Authenticated route:
+  POST /api/v1/job-seeker/profile
+
+Controller:
+  JobSeekerProfileController@save
+
+Concept:
+- One authenticated user can create/update one Job Seeker Profile.
+- Multiple categories saved through worker_categories.
+- Multiple skills through worker_skills.
+
+Historical error during testing:
+  Attempt to read property "id" on null
+  JobSeekerProfileController.php:25
+
+This indicated the tested authenticated user did not have the expected
+related profile/data at that point. It was part of debugging.
+
+======================================================================
+12. EMPLOYER / JOB HIRE PROFILE
+======================================================================
+
+Same authenticated user can also activate Job Hire mode.
+
+Routes:
+  GET  /api/v1/employer/profile
+  POST /api/v1/employer/profile
+
+Controller:
+  EmployerProfileController
+
+Employer types:
+- individual
+- business
+
+For business:
+- employer_type = business
+- business_name required
+
+Status:
+- controlled by Admin/System.
+
+Original Job Hire registration/profile requirements discussed:
+- mobile number
+- name/personal details
+- home/permanent location
+- current location
+- NID
+
+======================================================================
+13. CURRENT GPS LOCATION
+======================================================================
+
+Authenticated routes:
+  GET  /api/v1/location
+  POST /api/v1/location
+
+Controller:
+  UserLocationController
+
+Purpose:
+- Store same authenticated user's current/latest GPS location.
+
+For Job Seeker:
+- worker current GPS location.
+
+For Job Hire:
+- hirer's current GPS location used for Current Location search.
+
+Important rule:
+- Manual search location MUST NOT overwrite user's saved/current GPS location.
+
+======================================================================
+14. PRESENCE — ONLINE/OFFLINE
+======================================================================
+
+Requirement:
+- Both Worker and Hirer should be able to see online/offline state.
+
+Unified account presence applies to both Job Seeker and Job Hire modes.
+
+Authenticated routes confirmed by route:list:
+
+  GET|HEAD /api/v1/presence
+      UserPresenceController@show
+
+  POST /api/v1/presence/heartbeat
+      UserPresenceController@heartbeat
+
+  POST /api/v1/presence/offline
+      UserPresenceController@offline
+
+  POST /api/v1/presence/online
+      UserPresenceController@online
+
+Middleware:
+  auth:sanctum
+
+Postman tests shown in chat:
+
+ONLINE:
+  POST /api/v1/presence/online
+  HTTP 200
+
+Response included:
+{
+    "success": true,
+    "message": "User is now online.",
+    "data": {
+        "is_online": true,
+        "last_seen_at": null,
+        "last_activity_at": "..."
+    }
+}
+
+HEARTBEAT:
+  POST /api/v1/presence/heartbeat
+  HTTP 200
+
+Response:
+{
+    "success": true,
+    "message": "Presence heartbeat updated successfully.",
+    "data": {
+        "is_online": true,
+        "last_activity_at": "..."
+    }
+}
+
+OFFLINE:
+  POST /api/v1/presence/offline
+  HTTP 200
+
+Response:
+{
+    "success": true,
+    "message": "User is now offline.",
+    "data": {
+        "is_online": false,
+        "last_seen_at": "...",
+        "last_activity_at": "..."
+    }
+}
+
+GET PRESENCE:
+  GET /api/v1/presence
+  HTTP 200
+
+Response after offline:
+{
+    "success": true,
+    "message": "Presence retrieved successfully.",
+    "data": {
+        "is_online": false,
+        "last_seen_at": "...",
+        "last_activity_at": "..."
+    }
+}
+
+Presence module was successfully tested.
+
+======================================================================
+15. WORKER AVAILABILITY
+======================================================================
+
+Controller created:
+  app\Http\Controllers\Api\V1\WorkerAvailabilityController.php
+
+User confirmed:
+  WorkerAvailabilityController.php code save Done
+
+Routes confirmed by:
+  php artisan route:list --path=availability -v
+
+Output:
+
+  GET|HEAD api/v1/job-seeker/availability
+      Api\V1\WorkerAvailabilityController@show
+      auth:sanctum
+
+  PUT api/v1/job-seeker/availability
+      Api\V1\WorkerAvailabilityController@update
+      auth:sanctum
+
+Initial Postman mistake:
+- User sent POST to:
+  /api/v1/job-seeker/availability
+- Route expects PUT for update.
+- Response shown also indicated:
+  "Job Seeker profile not found."
+- After using a user with Job Seeker profile and correct methods, tests worked.
+
+GET test:
+  GET /api/v1/job-seeker/availability
+  HTTP 200
+
+Response:
+{
+    "success": true,
+    "message": "Availability retrieved successfully.",
+    "data": {
+        "is_available": true,
+        "availability_status": "available"
+    }
+}
+
+PUT false test:
+  PUT /api/v1/job-seeker/availability
+
+Body:
+{
+    "is_available": false
+}
+
+HTTP 200 response:
+{
+    "success": true,
+    "message": "Availability updated successfully.",
+    "data": {
+        "is_available": false,
+        "availability_status": "not_available"
+    }
+}
+
+PUT true test:
+{
+    "is_available": true
+}
+
+HTTP 200 response:
+{
+    "success": true,
+    "message": "Availability updated successfully.",
+    "data": {
+        "is_available": true,
+        "availability_status": "available"
+    }
+}
+
+Therefore:
+  Worker Availability module = COMPLETE / tested successfully.
+
+======================================================================
+16. CRITICAL WORKER BUSY BUSINESS RULE
+======================================================================
+
+User explicitly specified:
+
+When Worker receives/accepts a job and works on it:
+- Worker must become unavailable on the map.
+- ALL of that Worker's other job categories/skills must show Busy.
+- Worker cannot appear as freely available for another job during active work.
+
+When the hired work finishes:
+- All skills/categories become available again.
+
+Therefore worker availability is GLOBAL to the worker while an active job is
+running, even though the worker may have many categories and skills.
+
+The manual availability toggle exists, but job lifecycle must automatically
+control Busy/Available state as appropriate.
+
+======================================================================
+17. WORK HOURS
+======================================================================
+
+User requirement:
+
+From the time actual hired work starts until it finishes:
+- Work duration must be counted.
+- Worker profile/dashboard must show worked hours.
+- Hirer profile/dashboard must also reflect the job/work duration.
+
+Job lifecycle therefore needs timestamps such as:
+- accepted_at
+- started_at
+- completed_at / finished_at
+
+Actual work duration should be calculated from the work start/finish lifecycle,
+not merely from when a request was sent.
+
+======================================================================
+18. LIVE LOCATION DURING ACTIVE JOB
+======================================================================
+
+User requirement:
+- While job is active, the two users should be able to see each other's
+  locations.
+- Worker can see Hirer's relevant location.
+- Hirer can see Worker's current location.
+
+Privacy rule implied by business logic:
+- This mutual job-location visibility belongs to the active job relationship.
+- It should not remain unrestricted after job completion.
+
+======================================================================
+19. PAYMENT AFTER JOB FINISH
+======================================================================
+
+After work finishes, Job Hire user will settle the worker's job payment.
+
+Payment methods:
+- Cash / Hand Cash
+- Online
+
+Important separation:
+1. Job payment between Hirer and Worker
+2. InstaJob platform/service charge
+
+These are NOT the same accounting balance/status.
+
+System must separately track:
+- job payment method
+- job payment amount
+- job payment status
+- platform service charge
+- platform charge paid/unpaid/outstanding status
+
+======================================================================
+20. INSTAJOB COMPANY DUE / SERVICE CHARGE
+======================================================================
+
+User requirement:
+- After work completion/payment, Worker profile/account should show an amount
+  due to InstaJob company.
+- Due amount is calculated as a percentage of the work/job value.
+- Platform service charge must be tracked separately from worker job payment.
+
+Dashboard/company account should show:
+- total InstaJob charges
+- paid to InstaJob
+- outstanding due
+
+The broader earlier business discussion also required platform charges to be
+accounted for against the appropriate user account(s), separately from job
+settlement.
+
+======================================================================
+21. FIND WORKER — LOCATION SEARCH
+======================================================================
+
+Two location/search modes:
+
+A. MANUAL SEARCH
+- Hirer opens/selects a map location/area.
+- Selects radius.
+- Search location is temporary search input.
+- It does NOT overwrite hirer's current GPS location.
+
+B. CURRENT LOCATION
+- Use hirer's current GPS location.
+- Search within selected radius.
+
+Manual administrative filters also supported:
+  Division -> District -> Thana/Upazila
+
+Search filters must respect:
+- selected location/radius
+- category
+- worker availability
+- eligibility
+- relevant account/KYC/status rules as system evolves
+
+======================================================================
+22. CATEGORY MUST BE SELECTED LAST
+======================================================================
+
+User explicitly finalized the Find Worker UX order:
+
+1. Hirer selects search mode
+2. Hirer selects location/area/current location
+3. Hirer selects radius
+4. Job Category is selected LAST
+5. System shows eligible workers in that category within the selected area
+
+Example:
+- category = Plumbing
+- show eligible nearby plumbing workers
+
+Results/map should respect worker global availability.
+
+======================================================================
+23. MAP RESULT UX
+======================================================================
+
+Eligible workers should appear as individual pins on the map and/or list.
+
+Clicking a worker pin:
+- opens that Worker's profile/details.
+
+From worker profile:
+- Hirer can send a Direct Hire request to that specific worker.
+
+Nearby list examples previously requested:
+- 0.8 km — Restaurant — 2 Waiters — ৳150/hour
+- 1.4 km — Event — 5 Helpers — ৳120/hour
+- 2.1 km — Shop — Salesperson — ৳800/day
+
+Distance should be shown.
+
+======================================================================
+24. TWO HIRING MODES
+======================================================================
+
+Mode 1 — MANUAL / DIRECT HIRE
+-----------------------------
+- Show eligible nearby workers as map pins/list.
+- Hirer selects a specific worker.
+- Opens worker profile.
+- Sends Direct Hire request to that worker.
+
+Mode 2 — AUTO HIRE
+-------------------
+- User does NOT need to select a worker manually.
+- Find Worker screen contains an Auto Hire button.
+- Auto Hire orders eligible workers primarily by nearest distance.
+- Request/ringing is sent to nearest worker first.
+- Request has a limited acceptance/respond time.
+- If worker does not accept/respond in time:
+  automatically move to the next nearest eligible worker.
+- Continue sequentially until a worker accepts or candidates are exhausted.
+
+This is intended to behave similarly to Uber-style sequential dispatch.
+
+======================================================================
+25. EXPECTED JOB / HIRE LIFECYCLE
+======================================================================
+
+Conceptual lifecycle based on user requirements:
+
+Hirer creates/initiates job
+        |
+        v
+Location + Radius selected
+        |
+        v
+Category selected LAST
+        |
+        +--------------------------+
+        |                          |
+        v                          v
+Direct Hire                    Auto Hire
+specific worker                nearest-first queue
+        |                          |
+        +------------+-------------+
+                     |
+                     v
+              Hire Request
+                     |
+          Worker accepts/rejects/
+          expires/no response
+                     |
+                     v
+                 ACCEPTED
+                     |
+                     v
+                 JOB START
+                     |
+                     v
+       Worker GLOBAL status = BUSY
+       All categories/skills unavailable
+                     |
+                     v
+        Worker <-> Hirer location sharing
+                     |
+                     v
+              Work time counted
+                     |
+                     v
+                JOB FINISH
+                     |
+                     v
+       Worker GLOBAL availability restored
+                     |
+                     v
+        Cash or Online job settlement
+                     |
+                     v
+       InstaJob service charge calculated
+                     |
+                     v
+       Company due/outstanding recorded
+                     |
+                     v
+       Dashboard/work history updated
+
+======================================================================
+26. ROUTES/API.PHP STRUCTURE SHOWN IN CHAT
+======================================================================
+
+Imports included:
+
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\ForgotPasswordController;
+use App\Http\Controllers\Api\V1\LocationController;
+use App\Http\Controllers\Api\V1\ProfileController;
+use App\Http\Controllers\Api\V1\KycController;
+use App\Http\Controllers\Api\V1\JobCategoryController;
+use App\Http\Controllers\Api\V1\JobSeekerProfileController;
+use App\Http\Controllers\Api\V1\SkillController;
+use App\Http\Controllers\Api\V1\EmployerProfileController;
+use App\Http\Controllers\Api\V1\UserLocationController;
+use App\Http\Controllers\Api\V1\UserPresenceController;
+use App\Http\Controllers\Api\V1\WorkerAvailabilityController;
+
+use App\Http\Controllers\Api\V1\Admin\KycController as AdminKycController;
+
+Main prefix:
+  Route::prefix('v1')->group(...)
+
+Public:
+- locations
+- auth
+- job-categories
+- skills
+
+Authenticated auth:sanctum:
+- me
+- logout
+- logout-all
+- common profile
+- KYC submit
+- Job Seeker profile
+- Employer profile
+- current GPS location
+- presence
+- worker availability
+- Admin KYC routes with admin middleware
+
+Availability routes added inside auth:sanctum:
+
+Route::get('/job-seeker/availability', [
+    WorkerAvailabilityController::class,
+    'show'
+]);
+
+Route::put('/job-seeker/availability', [
+    WorkerAvailabilityController::class,
+    'update'
+]);
+
+======================================================================
+27. LATEST COMPLETED FOUNDATION MODULES
+======================================================================
+
+From the development progression available in this conversation:
+
+- Laravel API setup
+- Database/migrations foundation
+- Sanctum
+- Registration
+- Login/auth flow work
+- Forgot-password OTP flow work
+- Bangladesh locations
+- Common User Profile
+- Profile photo
+- NID/KYC
+- Admin KYC approval flow
+- Job Categories
+- Skills
+- Job Seeker Profile
+- Multiple worker categories
+- Worker skills design/work
+- Employer / Job Hire Profile
+- GPS/current location
+- Presence (online/offline/heartbeat)
+- Worker Availability (GET + PUT)
+
+Presence was tested successfully.
+
+Worker Availability was tested successfully:
+- GET available
+- PUT false -> not_available
+- PUT true -> available
+
+======================================================================
+28. LATEST STATUS BEFORE THIS HISTORY REQUEST
+======================================================================
+
+Immediately before the user asked for this text history file:
+
+Worker Availability restore test succeeded:
+
+  PUT /api/v1/job-seeker/availability
+  HTTP 200 OK
+
+Response:
+{
+    "success": true,
+    "message": "Availability updated successfully.",
+    "data": {
+        "is_available": true,
+        "availability_status": "available"
+    }
+}
+
+Assistant marked:
+  Step 52 — Worker Availability COMPLETE
+
+The next proposed development step was:
+  Step 53 — Marketplace Job
+
+Proposed Artisan command:
+  php artisan make:model MarketplaceJob -m
+
+Proposed files:
+  app/Models/MarketplaceJob.php
+  database/migrations/..._create_marketplace_jobs_table.php
+
+Reason for table name:
+- Use marketplace_jobs for the marketplace's actual jobs.
+- Avoid confusion with Laravel's queue-related "jobs" table.
+
+The intended next task:
+- Design marketplace_jobs migration while preserving the complete business
+  logic for Instant/Hourly/Daily/Scheduled/Contract jobs and the later
+  Hire Request -> Accept -> Busy -> Work Hours -> Finish -> Payment ->
+  InstaJob Due lifecycle.
+
+======================================================================
+29. IMPORTANT BUSINESS RULES TO PRESERVE IN ALL FUTURE DEVELOPMENT
+======================================================================
+
+1. One app only.
+2. One unified user account.
+3. Home has Job Seeker and Job Hire options.
+4. Same account may use both roles/modes.
+5. Worker may have multiple categories and skills.
+6. Category is selected LAST in Find Worker.
+7. Search supports Manual Location and Current GPS Location.
+8. Manual search must not overwrite saved current GPS.
+9. Search respects radius + category + availability.
+10. Map displays eligible workers as individual pins.
+11. Clicking a pin opens worker profile.
+12. Direct Hire can be sent to selected worker.
+13. Auto Hire performs sequential nearest-first timed dispatch.
+14. No-response/timeout moves automatically to next eligible worker.
+15. Once worker starts/accepts active work, worker is globally Busy.
+16. All worker categories/skills become unavailable during active job.
+17. Worker becomes available again after completion/cancel/release according
+    to job lifecycle rules.
+18. Work duration must be counted.
+19. Work hours/history must be visible in Worker and Hirer records/dashboard.
+20. Worker and Hirer can see each other's relevant location during active job.
+21. Job can be settled by Cash/Hand Cash or Online payment.
+22. Job settlement and InstaJob platform charge are separate accounting items.
+23. InstaJob charge is percentage/value-based according to configured business
+    rules.
+24. Outstanding InstaJob due must appear in the appropriate account/dashboard.
+25. Presence and Availability are separate concepts:
+    - Presence = online/offline/activity
+    - Availability = available/busy/not available for work
+26. KYC documents remain private and Admin-controlled.
+27. Location and personal data must be handled securely.
+28. Android and web use the same Laravel REST API.
+
+======================================================================
+30. DEVELOPMENT STYLE REQUESTED BY USER
+======================================================================
+
+The user prefers development guidance:
+- Step-by-step
+- Artisan command first where appropriate
+- Exact file path
+- Full code
+- Then migration/route/cache commands
+- Then Postman testing
+- User confirms "done" before moving to next major step
+- Preserve previously confirmed business logic
+- Do not silently change variable names or established logic when working on
+  existing code/reports.
+
+======================================================================
+31. OTHER DEVELOPMENT WORK DISCUSSED IN RELATED CHATS
+======================================================================
+
+Accounting / Core PHP report work was also discussed.
+
+Receipt & Payment report:
+- company -> bank -> bank account -> account heads header structure
+- old variable names/structure should remain unchanged where requested
+- receipt rows align debit/credit logic
+- payment rows use opposite debit/credit orientation
+- "Multiple" drilldown logic must reconcile with main amounts
+- contra receive/payment amounts included
+- opening/closing balances and totals
+
+Variables mentioned:
+- $company_wise_accounts
+- $header_structure
+- $opening_balances
+- $receipt_data
+- $payment_data
+- $contra_receive_amount
+- $contra_payment_amount
+- $company_sort_name
+- $bank_arr
+- $bank_ac_name_arr
+- $debit_account_code_arr
+- $multiple_receipt_amount
+
+FC Debit/Credit report:
+- BDT balance
+- Conv. Rate
+- FC.Debit
+- FC.Credit
+- FC.Balance
+- sub_account_code/currency structures
+- currency == 1 was not expected in that report.
+
+======================================================================
+32. CONTENT/DESIGN WORK ALSO DISCUSSED
+======================================================================
+
+Design/content tasks included:
+- Digital Marketer hiring banner
+- YouTube channel "AI HADI"
+- YouTube banner
+- Bangla text:
+  "আমি এ বাংলার কথা বলি"
+  "আমি মানুষের কথা বলি"
+- YouTube SEO description/hashtags/keywords
+- Domain/hosting discussions
+- onlineshohojbazar.com
+- Netlify
+- HTTPS/.htaccess
+- InstaJob / Ekhon Job logo concepts
+
+Digital marketer job post details included:
+- Facebook page create/setup
+- LinkedIn profile create/setup
+- organic marketing
+- Facebook Ads
+- Canva
+- salary 10,000 BDT monthly
+- 3 days/week
+- 2 hours/class
+- salary increases if batches increase
+
+======================================================================
+33. HISTORICAL DEBUGGING NOTES
+======================================================================
+
+Some errors/logs encountered during development:
+
+- sessions/cache migration key length issue
+- Route [login] not defined
+- OtpService::generate() undefined
+- Incorrect integer value 'male' for gender
+- Attempt to read property "id" on null in JobSeekerProfileController
+- Laravel Pail on Windows environment:
+  pcntl extension required to run Pail
+
+These errors are historical development/debugging information and should not
+be interpreted as necessarily unresolved current issues.
+
+======================================================================
+34. CURRENT CONTINUATION POINT
+======================================================================
+
+Foundation is now at the point where the next major marketplace module can
+start.
+
+NEXT:
+  MarketplaceJob model + marketplace_jobs migration
+
+Command previously proposed:
+  php artisan make:model MarketplaceJob -m
+
+Then design should support the future complete flow:
+- job creation
+- job type/rate/schedule
+- location
+- category
+- direct/auto hire
+- hire requests
+- request timeout
+- worker acceptance
+- active assignment
+- automatic global Busy
+- work start/finish
+- work duration
+- active-job mutual location
+- cash/online settlement
+- platform service charge
+- InstaJob due
+- history/dashboard
+- automatic availability restoration
+
+======================================================================
+END OF AVAILABLE CHAT/PROJECT HISTORY
+======================================================================
