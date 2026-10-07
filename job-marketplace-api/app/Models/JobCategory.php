@@ -31,6 +31,9 @@ class JobCategory extends Model
         ];
     }
 
+    /**
+     * Parent Category
+     */
     public function parent(): BelongsTo
     {
         return $this->belongsTo(
@@ -39,6 +42,9 @@ class JobCategory extends Model
         );
     }
 
+    /**
+     * Child Categories
+     */
     public function children(): HasMany
     {
         return $this->hasMany(
@@ -48,6 +54,9 @@ class JobCategory extends Model
          ->orderBy('name');
     }
 
+    /**
+     * Worker Categories
+     */
     public function workerCategories(): HasMany
     {
         return $this->hasMany(
@@ -56,6 +65,9 @@ class JobCategory extends Model
         );
     }
 
+    /**
+     * Job Seekers registered under this category
+     */
     public function jobSeekers(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -64,5 +76,16 @@ class JobCategory extends Model
             'job_category_id',
             'job_seeker_profile_id'
         )->withTimestamps();
+    }
+
+    /**
+     * Marketplace Jobs under this category
+     */
+    public function marketplaceJobs(): HasMany
+    {
+        return $this->hasMany(
+            MarketplaceJob::class,
+            'job_category_id'
+        );
     }
 }

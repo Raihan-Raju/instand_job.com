@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\V1\EmployerProfileController;
 use App\Http\Controllers\Api\V1\UserLocationController;
 use App\Http\Controllers\Api\V1\UserPresenceController;
 use App\Http\Controllers\Api\V1\WorkerAvailabilityController;
+use App\Http\Controllers\Api\V1\MarketplaceJobController;
 
 use App\Http\Controllers\Api\V1\Admin\KycController as AdminKycController;
 
@@ -338,6 +339,28 @@ Route::prefix('v1')->group(function ()
         Route::put('/job-seeker/availability', [
             WorkerAvailabilityController::class,
             'update'
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Marketplace Jobs
+        |--------------------------------------------------------------------------
+        |
+        | Authenticated user can create a marketplace job while acting
+        | in Job Hire / Employer mode.
+        |
+        | hirer_id is NOT accepted from the client.
+        | MarketplaceJobController will use the authenticated user's ID.
+        |
+        | Job location is stored as a snapshot in marketplace_jobs.
+        | Manual search location does NOT overwrite user_locations.
+        |
+        */
+
+        Route::post('/marketplace-jobs', [
+            MarketplaceJobController::class,
+            'store'
         ]);
 
 

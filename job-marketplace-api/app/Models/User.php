@@ -89,4 +89,15 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserPresence::class);
     }
+
+    /**
+     * Marketplace Jobs
+     *
+     * Jobs created by this user while using
+     * the Job Hire / Employer mode.
+     */
+    public function marketplaceJobs()
+    {
+        return $this->hasMany(MarketplaceJob::class, 'hirer_id');
+    }
 }
