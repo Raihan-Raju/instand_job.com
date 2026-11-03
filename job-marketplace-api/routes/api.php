@@ -363,6 +363,17 @@ Route::prefix('v1')->group(function ()
             'store'
         ]);
 
+        Route::get('/marketplace-jobs', [
+            MarketplaceJobController::class,
+            'index'
+        ]);
+
+        Route::get('/marketplace-jobs/{id}', [
+            MarketplaceJobController::class,
+            'show'
+        ]);
+        
+
 
         /*
         |--------------------------------------------------------------------------

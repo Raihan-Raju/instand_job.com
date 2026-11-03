@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Api\V1;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\StoreMarketplaceJobRequest;
 use App\Models\MarketplaceJob;
@@ -88,5 +86,63 @@ class MarketplaceJobController extends Controller
                 'data' => null,
             ], 500);
         }
+    }
+
+
+    /**
+     * Get authenticated hirer's marketplace jobs.
+     */
+    public function index(): JsonResponse
+    {
+        $jobs = MarketplaceJob::where(
+                'hirer_id',
+                request()->user()->id
+            )
+            ->with([
+                'category:id,name,slug',
+            ])
+            ->latest()
+            ->paginate(15);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Marketplace job list retrieved successfully.',
+            'data' => [
+                'jobs' => $jobs,
+            ],
+        ], 200);
+    }
+
+
+    /**
+     * Get a specific marketplace job.
+     */
+    public function show(int $id): JsonResponse
+    {
+        $job = MarketplaceJob::where(
+                'hirer_id',
+                request()->user()->id
+            )
+            ->with([
+                'hirer:id,mobile,status',
+                'category:id,name,slug',
+            ])
+            ->find($id);
+
+        if (!$job) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Marketplace job not found.',
+                'data' => null,
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Marketplace job details retrieved successfully.',
+            'data' => [
+                'job' => $job,
+            ],
+        ], 200);
     }
 }
