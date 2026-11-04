@@ -1,0 +1,38 @@
+$kind: http-example
+request:
+  url: http://127.0.0.1:8000/api/v1/auth/forgot-password/verify-otp
+  method: POST
+  body:
+    type: json
+    content: "{\r
+
+      \    \"mobile\": \"01516125589\",\r
+
+      \    \"otp\": \"759808\"\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    host: 127.0.0.1:8000
+    connection: close
+    x-powered-by: PHP/8.2.18
+    cache-control: no-cache, private
+    date: Mon, 19 Oct 2026 04:38:29 GMT
+    content-type: application/json
+    x-ratelimit-limit: "5"
+    x-ratelimit-remaining: "3"
+    access-control-allow-origin: "*"
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "message": "OTP verified successfully.",
+        "data": {
+          "reset_token": "NFoQA8wHMjWSd23IIiowMyMHyd1VmoyTjAeuNKq3YJ4xxTF9SqaIeN9uTOwwqeXl",
+          "expires_in_minutes": 15
+        }
+      }
+order: 1000

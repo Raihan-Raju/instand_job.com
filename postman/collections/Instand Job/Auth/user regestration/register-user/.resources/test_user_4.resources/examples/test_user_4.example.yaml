@@ -1,0 +1,47 @@
+$kind: http-example
+request:
+  url: http://127.0.0.1:8000/api/v1/auth/register
+  method: POST
+  body:
+    type: json
+    content: "\r
+
+      {\r
+
+      \  \"mobile\": \"01306713853\",\r
+
+      \  \"password\": \"TestUser@123\",\r
+
+      \  \"password_confirmation\": \"TestUser@123\"\r
+
+      }\r\n"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    host: 127.0.0.1:8000
+    connection: close
+    x-powered-by: PHP/8.2.18
+    cache-control: no-cache, private
+    date: Sun, 18 Oct 2026 08:23:56 GMT
+    content-type: application/json
+    x-ratelimit-limit: "10"
+    x-ratelimit-remaining: "9"
+    access-control-allow-origin: "*"
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "message": "Registration successful.",
+        "data": {
+          "user": {
+            "id": 4,
+            "mobile": "01306713853",
+            "status": 1
+          },
+          "token_type": "Bearer",
+          "access_token": "20|niLcdRGzbYaGXehkcHm3gwjYB2pKVjAfhrCO72Ld4daaddb0"
+        }
+      }
+order: 1000

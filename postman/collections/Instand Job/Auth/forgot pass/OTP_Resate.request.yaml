@@ -1,0 +1,14 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/v1/auth/forgot-password/verify-otp
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"mobile\": \"01516125589\",\r
+
+    \    \"otp\": \"759808\"\r
+
+    }"
+examples: ./.resources/OTP_Resate.resources/examples
+order: 2000

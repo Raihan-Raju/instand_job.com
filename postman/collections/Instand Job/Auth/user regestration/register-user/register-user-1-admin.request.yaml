@@ -1,0 +1,5 @@
+$kind: http-request
+url: ""
+method: GET
+examples: ./.resources/register-user-1-admin.resources/examples
+order: 2000

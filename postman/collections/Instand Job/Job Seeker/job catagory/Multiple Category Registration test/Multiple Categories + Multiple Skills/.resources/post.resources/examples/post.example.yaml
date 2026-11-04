@@ -1,0 +1,161 @@
+$kind: http-example
+request:
+  url: http://127.0.0.1:8000/api/v1/job-seeker/profile
+  method: POST
+  headers:
+    Accept: application/json
+  body:
+    type: json
+    content: "{\r
+
+      \    \"professional_title\": \"Plumber, Electrician & AC Technician\",\r
+
+      \    \"about\": \"Experienced in plumbing, electrical work and AC servicing.\",\r
+
+      \    \"experience_years\": 5,\r
+
+      \    \"hourly_rate\": 300,\r
+
+      \    \"daily_rate\": 1500,\r
+
+      \    \"category_ids\": [1, 2, 3],\r
+
+      \    \"skill_ids\": [1, 2, 4, 7, 8, 9]\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Host: 127.0.0.1:8000
+    Connection: close
+    X-Powered-By: PHP/8.2.18
+    Cache-Control: no-cache, private
+    Date: Thu, 01 Oct 2026 11:22:35 GMT
+    Content-Type: application/json
+    Access-Control-Allow-Origin: "*"
+  body:
+    type: text
+    content: |-
+      {
+          "success": true,
+          "message": "Job seeker profile saved successfully.",
+          "data": {
+              "id": 1,
+              "user_id": 3,
+              "professional_title": "Plumber, Electrician & AC Technician",
+              "about": "Experienced in plumbing, electrical work and AC servicing.",
+              "experience_years": 5,
+              "hourly_rate": "300.00",
+              "daily_rate": "1500.00",
+              "is_available": true,
+              "status": true,
+              "categories": [
+                  {
+                      "id": 1,
+                      "name": "Plumbing",
+                      "slug": "plumbing",
+                      "icon": null,
+                      "pivot": {
+                          "job_seeker_profile_id": 1,
+                          "job_category_id": 1,
+                          "created_at": "2026-10-01T10:18:43.000000Z",
+                          "updated_at": "2026-10-01T10:18:43.000000Z"
+                      }
+                  },
+                  {
+                      "id": 2,
+                      "name": "Electrical",
+                      "slug": "electrical",
+                      "icon": null,
+                      "pivot": {
+                          "job_seeker_profile_id": 1,
+                          "job_category_id": 2,
+                          "created_at": "2026-10-01T10:18:43.000000Z",
+                          "updated_at": "2026-10-01T10:18:43.000000Z"
+                      }
+                  },
+                  {
+                      "id": 3,
+                      "name": "AC Service",
+                      "slug": "ac-service",
+                      "icon": null,
+                      "pivot": {
+                          "job_seeker_profile_id": 1,
+                          "job_category_id": 3,
+                          "created_at": "2026-10-01T10:18:43.000000Z",
+                          "updated_at": "2026-10-01T10:18:43.000000Z"
+                      }
+                  }
+              ],
+              "skills": [
+                  {
+                      "id": 1,
+                      "name": "Pipe Fitting",
+                      "slug": "pipe-fitting",
+                      "pivot": {
+                          "job_seeker_profile_id": 1,
+                          "skill_id": 1,
+                          "created_at": "2026-10-01T11:22:35.000000Z",
+                          "updated_at": "2026-10-01T11:22:35.000000Z"
+                      }
+                  },
+                  {
+                      "id": 2,
+                      "name": "Leak Repair",
+                      "slug": "leak-repair",
+                      "pivot": {
+                          "job_seeker_profile_id": 1,
+                          "skill_id": 2,
+                          "created_at": "2026-10-01T11:22:35.000000Z",
+                          "updated_at": "2026-10-01T11:22:35.000000Z"
+                      }
+                  },
+                  {
+                      "id": 4,
+                      "name": "House Wiring",
+                      "slug": "house-wiring",
+                      "pivot": {
+                          "job_seeker_profile_id": 1,
+                          "skill_id": 4,
+                          "created_at": "2026-10-01T11:22:35.000000Z",
+                          "updated_at": "2026-10-01T11:22:35.000000Z"
+                      }
+                  },
+                  {
+                      "id": 7,
+                      "name": "AC Installation",
+                      "slug": "ac-installation",
+                      "pivot": {
+                          "job_seeker_profile_id": 1,
+                          "skill_id": 7,
+                          "created_at": "2026-10-01T11:22:35.000000Z",
+                          "updated_at": "2026-10-01T11:22:35.000000Z"
+                      }
+                  },
+                  {
+                      "id": 8,
+                      "name": "AC Servicing",
+                      "slug": "ac-servicing",
+                      "pivot": {
+                          "job_seeker_profile_id": 1,
+                          "skill_id": 8,
+                          "created_at": "2026-10-01T11:22:35.000000Z",
+                          "updated_at": "2026-10-01T11:22:35.000000Z"
+                      }
+                  },
+                  {
+                      "id": 9,
+                      "name": "AC Repair",
+                      "slug": "ac-repair",
+                      "pivot": {
+                          "job_seeker_profile_id": 1,
+                          "skill_id": 9,
+                          "created_at": "2026-10-01T11:22:35.000000Z",
+                          "updated_at": "2026-10-01T11:22:35.000000Z"
+                      }
+                  }
+              ]
+          }
+      }
+order: 1000

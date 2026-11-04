@@ -1,0 +1,45 @@
+$kind: http-example
+name: login-user_2Job Hire / Employer
+request:
+  url: http://127.0.0.1:8000/api/v1/auth/login
+  method: POST
+  body:
+    type: json
+    content: "{\r
+
+      \    \"mobile\": \"01516125589\",\r
+
+      \    \"password\": \"01516125589\"\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    host: 127.0.0.1:8000
+    connection: close
+    x-powered-by: PHP/8.2.18
+    cache-control: no-cache, private
+    date: Wed, 07 Oct 2026 11:45:27 GMT
+    content-type: application/json
+    x-ratelimit-limit: "10"
+    x-ratelimit-remaining: "8"
+    access-control-allow-origin: "*"
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "message": "Login successful.",
+        "data": {
+          "user": {
+            "id": 2,
+            "mobile": "01516125589",
+            "status": 1,
+            "last_login_at": "2026-10-07T11:45:27.000000Z"
+          },
+          "token_type": "Bearer",
+          "access_token": "17|yMG3F1nxQn9X3wNUWmcjL4MLXJfgYCmAPc945ps3377a3ccd"
+        }
+      }
+order: 1000

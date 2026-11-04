@@ -1,0 +1,6 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/v1/job-categories
+method: GET
+settings: {}
+examples: ./.resources/get.resources/examples
+order: 2000

@@ -1,0 +1,66 @@
+$kind: http-example
+request:
+  url: http://127.0.0.1:8000/api/v1/marketplace-jobs/2
+  method: GET
+  headers:
+    Accept: application/json
+  body:
+    type: json
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Host: 127.0.0.1:8000
+    Connection: close
+    X-Powered-By: PHP/8.2.18
+    Cache-Control: no-cache, private
+    Date: Wed, 04 Nov 2026 09:30:58 GMT
+    Content-Type: application/json
+    Access-Control-Allow-Origin: "*"
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "message": "Marketplace job details retrieved successfully.",
+        "data": {
+          "job": {
+            "id": 2,
+            "hirer_id": 4,
+            "job_category_id": 1,
+            "title": "Need an Electrician",
+            "description": "Need an electrician for home electrical repair.",
+            "job_type": "instant",
+            "rate_type": "hourly",
+            "rate_amount": "500.00",
+            "workers_required": 1,
+            "hire_mode": "manual",
+            "search_mode": "current",
+            "latitude": "23.8150000",
+            "longitude": "90.4200000",
+            "search_radius_km": "5.00",
+            "location_address": "Dhaka, Bangladesh",
+            "scheduled_at": null,
+            "status": "open",
+            "started_at": null,
+            "completed_at": null,
+            "worked_minutes": 0,
+            "cancelled_at": null,
+            "cancellation_reason": null,
+            "created_at": "2026-11-03T11:44:45.000000Z",
+            "updated_at": "2026-11-03T11:44:45.000000Z",
+            "hirer": {
+              "id": 4,
+              "mobile": "01306713853",
+              "status": 1
+            },
+            "category": {
+              "id": 1,
+              "name": "Plumbing",
+              "slug": "plumbing"
+            }
+          }
+        }
+      }
+order: 1000

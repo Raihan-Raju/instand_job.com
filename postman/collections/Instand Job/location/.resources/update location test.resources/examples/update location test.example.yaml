@@ -1,0 +1,40 @@
+$kind: http-example
+request:
+  url: http://127.0.0.1:8000/api/v1/location
+  method: POST
+  body:
+    type: json
+    content: "{\r
+
+      \    \"latitude\": 23.8150000,\r
+
+      \    \"longitude\": 90.4200000,\r
+
+      \    \"accuracy\": 8.25\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Host: 127.0.0.1:8000
+    Connection: close
+    X-Powered-By: PHP/8.2.18
+    Cache-Control: no-cache, private
+    Date: Sun, 04 Oct 2026 10:30:49 GMT
+    Content-Type: application/json
+    Access-Control-Allow-Origin: "*"
+  body:
+    type: text
+    content: |-
+      {
+          "success": true,
+          "message": "Current location updated successfully.",
+          "data": {
+              "latitude": "23.8150000",
+              "longitude": "90.4200000",
+              "accuracy": "8.25",
+              "location_updated_at": "2026-10-04T10:30:48.000000Z"
+          }
+      }
+order: 1000

@@ -1,0 +1,5 @@
+$kind: http-request
+url: ""
+method: GET
+examples: ./.resources/job-seeker.resources/examples
+order: 1000

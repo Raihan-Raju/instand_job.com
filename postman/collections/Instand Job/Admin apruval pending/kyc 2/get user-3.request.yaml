@@ -1,0 +1,42 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/v1/admin/kyc/pending
+method: GET
+headers:
+  - key: Accept
+    value: application/json
+    $type: |-
+      {
+        "type": "",
+        "format": "",
+        "required": false,
+        "deprecated": false,
+        "default": "",
+        "enum": [],
+        "pattern": "",
+        "minLength": "",
+        "maxLength": "",
+        "minItems": "",
+        "maxItems": "",
+        "minimum": "",
+        "maximum": "",
+        "uniqueItems": false
+      }
+body:
+  type: json
+  content: "{\r
+
+    \    \"id\": 2,\r
+
+    \    \"user_id\": 3,\r
+
+    \    \"verification_status\": \"pending\",\r
+
+    \    \"verification_method\": \"user_submission\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: 7|0ovYXA1DfKgkPEhWCJaMDJTqGaX6mvy86hv7R1941c98dd7b
+settings: {}
+order: 2000

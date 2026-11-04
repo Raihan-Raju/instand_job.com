@@ -1,0 +1,5 @@
+$kind: http-request
+url: ""
+method: GET
+examples: .resources/marketplace-jobs-Create.resources/examples
+order: 1000

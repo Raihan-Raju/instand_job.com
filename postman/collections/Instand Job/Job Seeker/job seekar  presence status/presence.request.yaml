@@ -1,0 +1,6 @@
+$kind: http-request
+url: ""
+method: GET
+settings: {}
+examples: ./.resources/presence.resources/examples
+order: 1000

@@ -1,0 +1,103 @@
+$kind: http-example
+request:
+  url: http://127.0.0.1:8000/api/v1/job-seeker/profile
+  method: POST
+  headers:
+    Accept: application/json
+  body:
+    type: json
+    content: "\r
+
+      {\r
+
+      \  \"full_name\": \"Test Worker\",\r
+
+      \  \"date_of_birth\": \"1998-05-15\",\r
+
+      \  \"gender\": \"male\",\r
+
+      \  \"division_id\": 3,\r
+
+      \  \"district_id\": 25,\r
+
+      \  \"upazila_id\": 180,\r
+
+      \  \"present_address\": \"Mirpur, Dhaka\",\r
+
+      \  \"permanent_address\": \"Cumilla, Bangladesh\",\r
+
+      \   \"experience_years\": 2,\r
+
+      \  \"category_ids\": [1],\r
+
+      \  \"skill_ids\": [1, 2]\r
+
+      }\r\n"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    host: 127.0.0.1:8000
+    connection: close
+    x-powered-by: PHP/8.2.18
+    cache-control: no-cache, private
+    date: Sun, 18 Oct 2026 09:50:27 GMT
+    content-type: application/json
+    access-control-allow-origin: "*"
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "message": "Job seeker profile saved successfully.",
+        "data": {
+          "id": 2,
+          "user_id": 4,
+          "professional_title": null,
+          "about": null,
+          "experience_years": 2,
+          "hourly_rate": null,
+          "daily_rate": null,
+          "is_available": null,
+          "status": null,
+          "categories": [
+            {
+              "id": 1,
+              "name": "Plumbing",
+              "slug": "plumbing",
+              "icon": null,
+              "pivot": {
+                "job_seeker_profile_id": 2,
+                "job_category_id": 1,
+                "created_at": "2026-10-18T09:50:27.000000Z",
+                "updated_at": "2026-10-18T09:50:27.000000Z"
+              }
+            }
+          ],
+          "skills": [
+            {
+              "id": 1,
+              "name": "Pipe Fitting",
+              "slug": "pipe-fitting",
+              "pivot": {
+                "job_seeker_profile_id": 2,
+                "skill_id": 1,
+                "created_at": "2026-10-18T09:50:27.000000Z",
+                "updated_at": "2026-10-18T09:50:27.000000Z"
+              }
+            },
+            {
+              "id": 2,
+              "name": "Leak Repair",
+              "slug": "leak-repair",
+              "pivot": {
+                "job_seeker_profile_id": 2,
+                "skill_id": 2,
+                "created_at": "2026-10-18T09:50:27.000000Z",
+                "updated_at": "2026-10-18T09:50:27.000000Z"
+              }
+            }
+          ]
+        }
+      }
+order: 1000

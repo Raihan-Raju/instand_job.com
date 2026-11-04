@@ -1,0 +1,91 @@
+$kind: http-example
+request:
+  url: http://127.0.0.1:8000/api/v1/marketplace-jobs
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    host: 127.0.0.1:8000
+    connection: close
+    x-powered-by: PHP/8.2.18
+    cache-control: no-cache, private
+    date: Tue, 03 Nov 2026 11:47:22 GMT
+    content-type: application/json
+    access-control-allow-origin: "*"
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "message": "Marketplace job list retrieved successfully.",
+        "data": {
+          "jobs": {
+            "current_page": 1,
+            "data": [
+              {
+                "id": 2,
+                "hirer_id": 4,
+                "job_category_id": 1,
+                "title": "Need an Electrician",
+                "description": "Need an electrician for home electrical repair.",
+                "job_type": "instant",
+                "rate_type": "hourly",
+                "rate_amount": "500.00",
+                "workers_required": 1,
+                "hire_mode": "manual",
+                "search_mode": "current",
+                "latitude": "23.8150000",
+                "longitude": "90.4200000",
+                "search_radius_km": "5.00",
+                "location_address": "Dhaka, Bangladesh",
+                "scheduled_at": null,
+                "status": "open",
+                "started_at": null,
+                "completed_at": null,
+                "worked_minutes": 0,
+                "cancelled_at": null,
+                "cancellation_reason": null,
+                "created_at": "2026-11-03T11:44:45.000000Z",
+                "updated_at": "2026-11-03T11:44:45.000000Z",
+                "category": {
+                  "id": 1,
+                  "name": "Plumbing",
+                  "slug": "plumbing"
+                }
+              }
+            ],
+            "first_page_url": "http://127.0.0.1:8000/api/v1/marketplace-jobs?page=1",
+            "from": 1,
+            "last_page": 1,
+            "last_page_url": "http://127.0.0.1:8000/api/v1/marketplace-jobs?page=1",
+            "links": [
+              {
+                "url": null,
+                "label": "&laquo; Previous",
+                "page": null,
+                "active": false
+              },
+              {
+                "url": "http://127.0.0.1:8000/api/v1/marketplace-jobs?page=1",
+                "label": "1",
+                "page": 1,
+                "active": true
+              },
+              {
+                "url": null,
+                "label": "Next &raquo;",
+                "page": null,
+                "active": false
+              }
+            ],
+            "next_page_url": null,
+            "path": "http://127.0.0.1:8000/api/v1/marketplace-jobs",
+            "per_page": 15,
+            "prev_page_url": null,
+            "to": 1,
+            "total": 1
+          }
+        }
+      }
+order: 1000

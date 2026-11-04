@@ -1,0 +1,6 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/v1/employer/profile
+method: GET
+settings: {}
+examples: ./.resources/employer_profile.resources/examples
+order: 1000

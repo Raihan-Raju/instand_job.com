@@ -1,0 +1,6 @@
+$kind: http-request
+url: ""
+method: GET
+settings: {}
+examples: ./.resources/heartbeat.resources/examples
+order: 2000

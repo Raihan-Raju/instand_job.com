@@ -1,0 +1,25 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/v1/admin/kyc/pending
+method: GET
+headers:
+  - key: Accept
+    value: application/json
+    $type: |-
+      {
+        "type": "",
+        "format": "",
+        "required": false,
+        "deprecated": false,
+        "default": "",
+        "enum": [],
+        "pattern": "",
+        "minLength": "",
+        "maxLength": "",
+        "minItems": "",
+        "maxItems": "",
+        "minimum": "",
+        "maximum": "",
+        "uniqueItems": false
+      }
+settings: {}
+order: 2000

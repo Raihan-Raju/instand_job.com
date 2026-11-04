@@ -1,0 +1,21 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/v1/kyc/submit
+method: POST
+body:
+  type: formdata
+  content:
+    - type: text
+      key: nid_number
+      value: "646545345453134"
+    - type: file
+      key: nid_front
+      src: /C:/Users/idbra/Downloads/Generated_Image.jpg
+    - type: file
+      key: nid_back
+      src: /C:/Users/idbra/Downloads/Easy_fly_international.jpg
+auth:
+  type: bearer
+  credentials:
+    token: 10|zpKySGRDCIQy7aaWlfxD8ORsUYXmscmJLWvjbWNV5995bb2e
+settings: {}
+order: 3000

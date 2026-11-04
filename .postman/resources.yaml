@@ -1,0 +1,7 @@
+workspace:
+  id: 60af41de-c767-45ba-af16-f95fc9936689
+cloudResources:
+  globals:
+    ../postman/globals/workspace.globals.yaml: 18a29b58-d526-4576-86c2-fe01964e8679
+  collections:
+    ../postman/collections/Instand Job: 49634098-2de79473-5f15-4cec-8ddb-5ddaef91200a

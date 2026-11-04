@@ -1,0 +1,5 @@
+$kind: collection
+auth:
+  type: bearer
+  credentials:
+    token: 27|XMyPMgyPAV81oxBwoxmAqBuOGgsCv64YhE4B7PjYf81a4cdb

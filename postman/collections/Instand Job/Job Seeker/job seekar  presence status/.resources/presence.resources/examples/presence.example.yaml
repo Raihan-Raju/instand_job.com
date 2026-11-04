@@ -1,0 +1,49 @@
+$kind: http-example
+request:
+  url: http://127.0.0.1:8000/api/v1/presence/online
+  method: POST
+  headers:
+    Accept: application/json
+  body:
+    type: json
+    content: "{\r
+
+      \    \"success\": true,\r
+
+      \    \"message\": \"User is now online.\",\r
+
+      \    \"data\": {\r
+
+      \        \"is_online\": true,\r
+
+      \        \"last_seen_at\": null,\r
+
+      \        \"last_activity_at\": \"...\"\r
+
+      \    }\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Host: 127.0.0.1:8000
+    Connection: close
+    X-Powered-By: PHP/8.2.18
+    Cache-Control: no-cache, private
+    Date: Sun, 04 Oct 2026 11:19:45 GMT
+    Content-Type: application/json
+    Access-Control-Allow-Origin: "*"
+  body:
+    type: text
+    content: |-
+      {
+          "success": true,
+          "message": "User is now online.",
+          "data": {
+              "is_online": true,
+              "last_seen_at": null,
+              "last_activity_at": "2026-10-04T11:19:45.000000Z"
+          }
+      }
+order: 2000
