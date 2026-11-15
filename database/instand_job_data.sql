@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 04, 2026 at 11:16 AM
+-- Generation Time: Nov 15, 2026 at 11:56 AM
 -- Server version: 8.3.0
 -- PHP Version: 7.4.33
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `cache` (
   `expiration` int NOT NULL,
   PRIMARY KEY (`key`),
   KEY `cache_expiration_index` (`expiration`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `cache_locks` (
   `expiration` int NOT NULL,
   PRIMARY KEY (`key`),
   KEY `cache_locks_expiration_index` (`expiration`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `districts` (
   UNIQUE KEY `districts_code_unique` (`code`),
   KEY `districts_division_id_status_index` (`division_id`,`status`),
   KEY `districts_status_index` (`status`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `districts`
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `divisions` (
   UNIQUE KEY `divisions_code_unique` (`code`),
   KEY `divisions_name_en_index` (`name_en`),
   KEY `divisions_status_index` (`status`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `divisions`
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `employer_profiles` (
   UNIQUE KEY `employer_profiles_user_id_unique` (`user_id`),
   KEY `employer_profiles_employer_type_index` (`employer_type`),
   KEY `employer_profiles_status_index` (`status`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `employer_profiles`
@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `jobs` (
   `created_at` int UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `jobs_queue_index` (`queue`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `job_batches` (
   `created_at` int NOT NULL,
   `finished_at` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -225,7 +225,7 @@ CREATE TABLE IF NOT EXISTS `job_categories` (
   KEY `job_categories_status_index` (`status`),
   KEY `job_categories_sort_order_index` (`sort_order`),
   KEY `job_categories_parent_id_index` (`parent_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `job_categories`
@@ -266,7 +266,7 @@ CREATE TABLE IF NOT EXISTS `job_seeker_profiles` (
   UNIQUE KEY `job_seeker_profiles_user_id_unique` (`user_id`),
   KEY `job_seeker_profiles_is_available_index` (`is_available`),
   KEY `job_seeker_profiles_status_index` (`status`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `job_seeker_profiles`
@@ -313,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `marketplace_jobs` (
   KEY `marketplace_jobs_latitude_longitude_index` (`latitude`,`longitude`),
   KEY `marketplace_jobs_hirer_id_status_index` (`hirer_id`,`status`),
   KEY `marketplace_jobs_scheduled_at_index` (`scheduled_at`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `marketplace_jobs`
@@ -336,7 +336,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -389,7 +389,7 @@ CREATE TABLE IF NOT EXISTS `mobile_otps` (
   PRIMARY KEY (`id`),
   KEY `mobile_otps_mobile_purpose_index` (`mobile`,`purpose`),
   KEY `mobile_otps_mobile_index` (`mobile`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `mobile_otps`
@@ -420,7 +420,7 @@ CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
   PRIMARY KEY (`id`),
   KEY `password_reset_tokens_mobile_expires_at_index` (`mobile`,`expires_at`),
   KEY `password_reset_tokens_mobile_index` (`mobile`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `password_reset_tokens`
@@ -453,16 +453,16 @@ CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
   UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`),
   KEY `personal_access_tokens_expires_at_index` (`expires_at`)
-) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `personal_access_tokens`
 --
 
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
+(18, 'App\\Models\\User', 3, 'auth-token', 'f85b9cabfd2da0c1b4ed61f17f4cf492428f3c6ba44612b1dd9d7ea9118c74a2', '[\"*\"]', NULL, NULL, '2026-10-07 05:45:37', '2026-10-07 05:45:37'),
 (19, 'App\\Models\\User', 1, 'auth-token', 'a3175c45a82f742a3e4691806a001725d25b20a8a67e0857f110f90ef0bdad49', '[\"*\"]', NULL, NULL, '2026-10-14 05:39:15', '2026-10-14 05:39:15'),
 (26, 'App\\Models\\User', 2, 'auth-token', '68cb24711b901c115ed72f518c8485228186160ff341901e0af1ec6fba62e6a3', '[\"*\"]', '2026-11-04 02:50:52', NULL, '2026-11-04 02:29:23', '2026-11-04 02:50:52'),
-(18, 'App\\Models\\User', 3, 'auth-token', 'f85b9cabfd2da0c1b4ed61f17f4cf492428f3c6ba44612b1dd9d7ea9118c74a2', '[\"*\"]', NULL, NULL, '2026-10-07 05:45:37', '2026-10-07 05:45:37'),
 (27, 'App\\Models\\User', 4, 'auth-token', 'e925b516fc91cf54d4d10125b281b945234b022fe7c4629000a469a3627e37b1', '[\"*\"]', '2026-11-04 03:40:22', NULL, '2026-11-04 03:23:13', '2026-11-04 03:40:22');
 
 -- --------------------------------------------------------
@@ -482,29 +482,31 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   PRIMARY KEY (`id`),
   KEY `sessions_user_id_index` (`user_id`),
   KEY `sessions_last_activity_index` (`last_activity`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `sessions`
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('CzWefVk6SvH6msRcusSjQgPKe4T1t4SXCYOT8JlJ', NULL, '127.0.0.1', 'PostmanRuntime/7.56.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUDRhbDlKSnNFRWFHRVJnMkVHb25vNDZ6dmhYUGRRcDZZZlV0bEFMNSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1790684084),
-('HrvqmoDFqEMEmGFNHabmxkT7njNU2wUXLCDCVI2S', NULL, '127.0.0.1', 'PostmanRuntime/7.56.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNWtpTkVyMzlFYk16UHhEM1N4QkpHcUxicklXbVpjUUhqeEQ1cTFkUSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1790847855),
-('XvM1RnA73WIRHws12eYZu7JbM4akpM3b3VYgo8wQ', NULL, '127.0.0.1', 'PostmanRuntime/7.56.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoidTdvVVNRdWJrTEgxeGdpcDN4Y3NmNHhwYUNZQ21OV2JBVlNDOU5VVyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1790835587),
-('E0inWH65IlhLeNF3yFFXCb3IPoQj3SBzvPTpXKv5', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOE8yMU15S09EYkt2aDdZQUxBYmVOQUlBcXJ3cGdVRHc5MU1hdGRQTSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1790998625),
-('d1fVFCpHdsYt0smmvFABflHU6RB1bNP2m3G06q2k', NULL, '127.0.0.1', 'PostmanRuntime/7.56.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRVlzM0hra2M2SzgySkkxelUwVlR4NUthRkhOMWk1S1JPc2tpR2FDeCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1791006641),
+('0hyIfOe4ehnWsJ4CGYoLQwh0y6awOMqqctmehCcf', NULL, '127.0.0.1', 'PostmanRuntime/2.11.2', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZXJCMnBsSGNuMFhheXNPc0J2eDZUY25EdTJiNUlKNnV1bmxmZFVWUyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1792311687),
 ('5yLLfFdKSOeCaIk9opKJLQIkKoWRgNTq8a1SV4m2', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiY2RQSnhYWkxOWkl3MDdPVzRGY0Q2cG5ka0VsVG1LSGpJampVVE5ETCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1791094597),
-('UQuk9xYwMUw3kj3FtYmGVZGf6fc3KnjCiJCWnD2I', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTld4SGI1ZDdLWk1RQm83OUdlMHVFYWxxbzc2Sm5RR2ZtMnhYUjNKTSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1790837400),
 ('6ZZCzLZ4ovNt7C5IH6Pm0XLCgog9fLeX2w7zY2QP', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZUZOTG9LQkVPclBrRTh0Q0U2OTdMVHhTa09BZTVoZFd5Z3ZkR2VDNiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1791109741),
 ('8eWxOxEvlO6P4MFq0hCUv34ytm5jTjeaUdnoscUP', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoib2JqZ0dzQ2pQUEhvYXFFMDA5bEp2aWVPRm5GenRsakVhQjhWbjIyeiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1791194199),
-('UXpgLk9BZ58mMsieY70ifj5dpJFg9YiOqdFv2ZVY', NULL, '127.0.0.1', 'PostmanRuntime/2.11.2', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVTZxVjF6bmlXTTNsYzdXZHN0b2tiZ2lCMHhtUDZBSVhERVhsaUl4byI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1791979412),
-('0hyIfOe4ehnWsJ4CGYoLQwh0y6awOMqqctmehCcf', NULL, '127.0.0.1', 'PostmanRuntime/2.11.2', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZXJCMnBsSGNuMFhheXNPc0J2eDZUY25EdTJiNUlKNnV1bmxmZFVWUyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1792311687),
-('p5vWIziUOrcF58ZURG80IUJOKhTltrRehayDwpU9', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:158.0) Gecko/20100101 Firefox/158.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNG00Zk1FNU1oanVTUGN3OGRrejdydjJLSWJoR1djZk9VQUpyNjR4WiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1792314697),
-('q3rNPTLGu1hDl8SDAAWYnEXWsdffpttnwpS3fUJd', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:158.0) Gecko/20100101 Firefox/158.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTFBrckJya3dGRXo3U2xTUjZ3cWVnZ3daaDNuVXc2UnBMUWkyRXhEViI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1792383856),
+('CzWefVk6SvH6msRcusSjQgPKe4T1t4SXCYOT8JlJ', NULL, '127.0.0.1', 'PostmanRuntime/7.56.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUDRhbDlKSnNFRWFHRVJnMkVHb25vNDZ6dmhYUGRRcDZZZlV0bEFMNSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1790684084),
+('d1fVFCpHdsYt0smmvFABflHU6RB1bNP2m3G06q2k', NULL, '127.0.0.1', 'PostmanRuntime/7.56.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRVlzM0hra2M2SzgySkkxelUwVlR4NUthRkhOMWk1S1JPc2tpR2FDeCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1791006641),
+('E0inWH65IlhLeNF3yFFXCb3IPoQj3SBzvPTpXKv5', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOE8yMU15S09EYkt2aDdZQUxBYmVOQUlBcXJ3cGdVRHc5MU1hdGRQTSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1790998625),
+('f0ksu1UEHzEso2DRURxww7ZibUlrysTliZ3VQK1s', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Code-Insiders/1.147.0-insider Chrome/150.0.7871.250 Electron/43.8.9 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiYkVWeGJYVDhSalFsU1VaRjNMZ29OakE3dldrT3JuRW05bmtRbWJXQSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1794735172),
+('HrvqmoDFqEMEmGFNHabmxkT7njNU2wUXLCDCVI2S', NULL, '127.0.0.1', 'PostmanRuntime/7.56.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNWtpTkVyMzlFYk16UHhEM1N4QkpHcUxicklXbVpjUUhqeEQ1cTFkUSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1790847855),
 ('p09d5PcX1oeYfgt9v8QLMpAVHPokelyzofpDp9P9', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:159.0) Gecko/20100101 Firefox/159.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZ1Jla2s0YUlrak4wVFM5VmlsV3BUcVR6WElNSzR2MURoTmJnWVRaMCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1793685774),
+('p5vWIziUOrcF58ZURG80IUJOKhTltrRehayDwpU9', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:158.0) Gecko/20100101 Firefox/158.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNG00Zk1FNU1oanVTUGN3OGRrejdydjJLSWJoR1djZk9VQUpyNjR4WiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1792314697),
 ('pCtam1nKgF8KYY3yB8xspXVsHEGhFcQ5jEm8CujR', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:159.0) Gecko/20100101 Firefox/159.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTDBGMk93NVNHQkF0Z25VUFRCNW1pMDdxQzN4MnBiUmNsQ2lNQm5ZSSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1793779996),
-('vTjXexiMXmHUkQbsqZ9mNks2OxN4KQyVAVlwjIcx', NULL, '127.0.0.1', 'PostmanRuntime/2.14.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNGJaRndvamZmMmtlRVBtUGRIVVFrREgxU1VtTnFJcHJ5ZVQ0NzhuRyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1793785008);
+('PsdnDroWPFl5tkccP4P9nzl0hDV6NeOuYjupAAah', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:160.0) Gecko/20100101 Firefox/160.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZG91Q0gzc1A4QzV6bnNiWDFGYTFsWVdJTG1KYlRGQnRrTVJDSVBEcyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1794735233),
+('q3rNPTLGu1hDl8SDAAWYnEXWsdffpttnwpS3fUJd', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:158.0) Gecko/20100101 Firefox/158.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTFBrckJya3dGRXo3U2xTUjZ3cWVnZ3daaDNuVXc2UnBMUWkyRXhEViI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1792383856),
+('UQuk9xYwMUw3kj3FtYmGVZGf6fc3KnjCiJCWnD2I', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTld4SGI1ZDdLWk1RQm83OUdlMHVFYWxxbzc2Sm5RR2ZtMnhYUjNKTSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1790837400),
+('UXpgLk9BZ58mMsieY70ifj5dpJFg9YiOqdFv2ZVY', NULL, '127.0.0.1', 'PostmanRuntime/2.11.2', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiVTZxVjF6bmlXTTNsYzdXZHN0b2tiZ2lCMHhtUDZBSVhERVhsaUl4byI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1791979412),
+('vTjXexiMXmHUkQbsqZ9mNks2OxN4KQyVAVlwjIcx', NULL, '127.0.0.1', 'PostmanRuntime/2.14.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNGJaRndvamZmMmtlRVBtUGRIVVFrREgxU1VtTnFJcHJ5ZVQ0NzhuRyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1793785008),
+('XvM1RnA73WIRHws12eYZu7JbM4akpM3b3VYgo8wQ', NULL, '127.0.0.1', 'PostmanRuntime/7.56.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoidTdvVVNRdWJrTEgxeGdpcDN4Y3NmNHhwYUNZQ21OV2JBVlNDOU5VVyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1790835587);
 
 -- --------------------------------------------------------
 
@@ -526,7 +528,7 @@ CREATE TABLE IF NOT EXISTS `skills` (
   UNIQUE KEY `skills_slug_unique` (`slug`),
   KEY `skills_status_index` (`status`),
   KEY `skills_sort_order_index` (`sort_order`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `skills`
@@ -578,7 +580,7 @@ CREATE TABLE IF NOT EXISTS `upazilas` (
   KEY `upazilas_district_id_status_index` (`district_id`,`status`),
   KEY `upazilas_district_id_type_index` (`district_id`,`type`),
   KEY `upazilas_status_index` (`status`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `upazilas`
@@ -610,7 +612,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_mobile_unique` (`mobile`),
   KEY `users_user_type_index` (`user_type`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
@@ -641,7 +643,7 @@ CREATE TABLE IF NOT EXISTS `user_locations` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_locations_user_id_unique` (`user_id`),
   KEY `user_locations_latitude_longitude_index` (`latitude`,`longitude`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user_locations`
@@ -670,7 +672,7 @@ CREATE TABLE IF NOT EXISTS `user_presences` (
   KEY `user_presences_is_online_index` (`is_online`),
   KEY `user_presences_last_seen_at_index` (`last_seen_at`),
   KEY `user_presences_last_activity_at_index` (`last_activity_at`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user_presences`
@@ -705,7 +707,7 @@ CREATE TABLE IF NOT EXISTS `user_profiles` (
   KEY `user_profiles_division_id_foreign` (`division_id`),
   KEY `user_profiles_district_id_foreign` (`district_id`),
   KEY `user_profiles_upazila_id_foreign` (`upazila_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user_profiles`
@@ -743,7 +745,7 @@ CREATE TABLE IF NOT EXISTS `user_verifications` (
   KEY `user_verifications_verification_status_index` (`verification_status`),
   KEY `user_verifications_nid_number_index` (`nid_number`),
   KEY `user_verifications_verification_method_index` (`verification_method`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user_verifications`
@@ -770,7 +772,7 @@ CREATE TABLE IF NOT EXISTS `worker_categories` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `worker_category_unique` (`job_seeker_profile_id`,`job_category_id`),
   KEY `worker_categories_job_category_id_index` (`job_category_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `worker_categories`
@@ -798,7 +800,7 @@ CREATE TABLE IF NOT EXISTS `worker_skills` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `worker_skill_unique` (`job_seeker_profile_id`,`skill_id`),
   KEY `worker_skills_skill_id_index` (`skill_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `worker_skills`
@@ -813,6 +815,67 @@ INSERT INTO `worker_skills` (`id`, `job_seeker_profile_id`, `skill_id`, `created
 (6, 1, 9, '2026-10-01 05:22:35', '2026-10-01 05:22:35'),
 (7, 2, 1, '2026-10-18 03:50:27', '2026-10-18 03:50:27'),
 (8, 2, 2, '2026-10-18 03:50:27', '2026-10-18 03:50:27');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `employer_profiles`
+--
+ALTER TABLE `employer_profiles`
+  ADD CONSTRAINT `fk_employer_profiles_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Constraints for table `job_seeker_profiles`
+--
+ALTER TABLE `job_seeker_profiles`
+  ADD CONSTRAINT `fk_job_seeker_profiles_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Constraints for table `marketplace_jobs`
+--
+ALTER TABLE `marketplace_jobs`
+  ADD CONSTRAINT `fk_marketplace_jobs_category` FOREIGN KEY (`job_category_id`) REFERENCES `job_categories` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_marketplace_jobs_hirer` FOREIGN KEY (`hirer_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Constraints for table `user_locations`
+--
+ALTER TABLE `user_locations`
+  ADD CONSTRAINT `fk_user_locations_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Constraints for table `user_presences`
+--
+ALTER TABLE `user_presences`
+  ADD CONSTRAINT `fk_user_presences_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Constraints for table `user_profiles`
+--
+ALTER TABLE `user_profiles`
+  ADD CONSTRAINT `fk_user_profiles_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Constraints for table `user_verifications`
+--
+ALTER TABLE `user_verifications`
+  ADD CONSTRAINT `fk_user_verifications_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Constraints for table `worker_categories`
+--
+ALTER TABLE `worker_categories`
+  ADD CONSTRAINT `fk_worker_categories_category` FOREIGN KEY (`job_category_id`) REFERENCES `job_categories` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_worker_categories_profile` FOREIGN KEY (`job_seeker_profile_id`) REFERENCES `job_seeker_profiles` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Constraints for table `worker_skills`
+--
+ALTER TABLE `worker_skills`
+  ADD CONSTRAINT `fk_worker_skills_profile` FOREIGN KEY (`job_seeker_profile_id`) REFERENCES `job_seeker_profiles` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_worker_skills_skill` FOREIGN KEY (`skill_id`) REFERENCES `skills` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
