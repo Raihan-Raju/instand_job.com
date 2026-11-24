@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -69,9 +70,6 @@ class User extends Authenticatable
 
     /**
      * Current GPS Location
-     *
-     * Same location relation can be used by both:
-     * Job Seeker and Job Hire modes.
      */
     public function location()
     {
@@ -80,10 +78,6 @@ class User extends Authenticatable
 
     /**
      * Online / Offline Presence
-     *
-     * Presence belongs to the unified user account.
-     * Same presence is used in both:
-     * Job Seeker and Job Hire modes.
      */
     public function presence()
     {
@@ -91,13 +85,18 @@ class User extends Authenticatable
     }
 
     /**
-     * Marketplace Jobs
-     *
-     * Jobs created by this user while using
-     * the Job Hire / Employer mode.
+     * Marketplace Jobs created by this user.
      */
     public function marketplaceJobs()
     {
         return $this->hasMany(MarketplaceJob::class, 'hirer_id');
+    }
+
+    /**
+     * Job Assignments received by this worker.
+     */
+    public function jobAssignments(): HasMany
+    {
+        return $this->hasMany(JobAssignment::class, 'worker_id');
     }
 }

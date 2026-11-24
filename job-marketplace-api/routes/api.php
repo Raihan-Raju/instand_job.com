@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Api\V1\JobAssignmentController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\ForgotPasswordController;
 use App\Http\Controllers\Api\V1\LocationController;
@@ -373,6 +374,27 @@ Route::prefix('v1')->group(function ()
             'show'
         ]);
         
+
+        /*
+        |--------------------------------------------------------------------------
+        | Job Assignments
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post('/marketplace-jobs/{jobId}/assignments', [
+            JobAssignmentController::class,
+            'store'
+        ]);
+
+        Route::post('/job-assignments/{assignmentId}/accept', [
+            JobAssignmentController::class,
+            'accept'
+        ]);
+
+        Route::post('/job-assignments/{assignmentId}/reject', [
+            JobAssignmentController::class,
+            'reject'
+        ]);
 
 
         /*

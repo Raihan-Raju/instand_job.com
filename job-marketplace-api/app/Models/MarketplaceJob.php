@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MarketplaceJob extends Model
 {
@@ -66,5 +67,13 @@ class MarketplaceJob extends Model
     public function category()
     {
         return $this->belongsTo(JobCategory::class, 'job_category_id');
+    }
+
+    /**
+     * Workers assigned to this marketplace job.
+     */
+    public function assignments(): HasMany
+    {
+        return $this->hasMany(JobAssignment::class, 'marketplace_job_id');
     }
 }
